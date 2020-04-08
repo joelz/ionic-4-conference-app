@@ -1,0 +1,19 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Modal One</ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="dismissModal()" style="color: #488aff;" *ngIf="!canGoBack">close</ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="container modal-section-container ">
+    <ion-button (click)="goToTwo()">go to modal 2</ion-button>
+    <br/>
+    <label for="">ion-nav count: {{navsCount}}</label>
+    </div>
+</ion-content>
