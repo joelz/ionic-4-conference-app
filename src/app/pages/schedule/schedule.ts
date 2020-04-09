@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, IonList, LoadingController, ModalController, ToastController, Config } from '@ionic/angular';
 
@@ -11,7 +11,7 @@ import { UserData } from '../../providers/user-data';
   templateUrl: 'schedule.html',
   styleUrls: ['./schedule.scss'],
 })
-export class SchedulePage implements OnInit {
+export class SchedulePage implements OnInit, AfterViewInit, OnDestroy {
   // Gets a reference to the list element
   @ViewChild('scheduleList', { static: true }) scheduleList: IonList;
 
@@ -36,9 +36,31 @@ export class SchedulePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    console.log('SchedulePage - ngOnInit');
     this.updateSchedule();
 
     this.ios = this.config.get('mode') === 'ios';
+  }
+
+  ngAfterViewInit() {
+    console.log('SchedulePage - ngAfterViewInit');
+  }
+
+  ngOnDestroy() {
+    console.log('SchedulePage - ngOnDestroy');
+  }
+
+  ionViewWillEnter() {
+    console.log('SchedulePage - ionViewWillEnter');
+  }
+  ionViewDidEnter() {
+    console.log('SchedulePage - ionViewDidEnter');
+  }
+  ionViewWillLeave() {
+    console.log('SchedulePage - ionViewWillLeave');
+  }
+  ionViewDidLeave() { 
+    console.log('SchedulePage - ionViewDidLeave');
   }
 
   updateSchedule() {
