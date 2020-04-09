@@ -35,6 +35,16 @@ export class ModalRootPage implements OnInit, AfterViewInit  {
         nav.setRoot(this.rootPage, this.rootPageParam);
     }
 
+    ionViewWillEnter() {
+        console.log('ModalRootComponent - ionViewWillEnter');
+    }
     ionViewDidEnter() {
+        console.log('ModalRootComponent - ionViewDidEnter');
+    }
+    ionViewWillLeave() {
+        console.log('ModalRootComponent - ionViewWillLeave');
+    }
+    ionViewDidLeave() {
+        console.log('ModalRootComponent - ionViewDidLeave');
     }
 }

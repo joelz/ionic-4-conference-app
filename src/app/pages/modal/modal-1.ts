@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { NavParams } from '@ionic/angular';
 import {
     NavController, LoadingController, AlertController, ToastController, ModalController,
@@ -10,7 +10,7 @@ import { ModalTwo } from './modal-2';
     selector: 'modal-1',
     templateUrl: 'modal-1.html'
 })
-export class ModalOne implements OnInit, AfterViewInit  {
+export class ModalOne implements OnInit, AfterViewInit, OnDestroy  {
 
     isInDesktop = false;
     rootPage: any;
@@ -48,8 +48,21 @@ export class ModalOne implements OnInit, AfterViewInit  {
         }, 100 * 1);
     }
 
-    ionViewDidEnter() {
+    ngOnDestroy() {
+        console.log('ModalOne - ngOnDestroy');
+    }
 
+    ionViewWillEnter() {
+        console.log('ModalOne - ionViewWillEnter');
+    }
+    ionViewDidEnter() {
+        console.log('ModalOne - ionViewDidEnter');
+    }
+    ionViewWillLeave() {
+        console.log('ModalOne - ionViewWillLeave');
+    }
+    ionViewDidLeave() {
+        console.log('ModalOne - ionViewDidLeave');
     }
 
     dismissModal() {
@@ -60,7 +73,12 @@ export class ModalOne implements OnInit, AfterViewInit  {
         const navs = document.querySelectorAll('ion-nav');
         if (navs && navs.length && navs.length > 0) {
             const nav = navs[navs.length - 1];
-            nav.push(ModalTwo, {});
+            // 把callback通过navParam传递给下一页
+            nav.push(ModalTwo, { callbackWhenBack: this.getDataFromNextPage });
         }
+    }
+
+    getDataFromNextPage(data) {
+        console.log('current page is ModalOne, data from next page is: ', data);
     }
 }

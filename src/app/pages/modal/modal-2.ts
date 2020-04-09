@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { NavParams } from '@ionic/angular';
 import {
     NavController, LoadingController, AlertController, ToastController, ModalController,
@@ -10,7 +10,7 @@ import { ModalThree } from './modal-3';
     selector: 'modal-2',
     templateUrl: 'modal-2.html'
 })
-export class ModalTwo implements OnInit, AfterViewInit  {
+export class ModalTwo implements OnInit, AfterViewInit, OnDestroy  {
 
     isInDesktop = false;
     rootPage: any;
@@ -19,10 +19,15 @@ export class ModalTwo implements OnInit, AfterViewInit  {
 
     navsCount = 0;
 
+    callbackWhenBack: any;
+
     constructor(
         public navParams: NavParams,
         protected modalCtrl: ModalController
     ) {
+        if (this.navParams.get('callbackWhenBack')) {
+            this.callbackWhenBack = this.navParams.get('callbackWhenBack');
+        }
     }
 
     ngOnInit(): void {
@@ -45,7 +50,28 @@ export class ModalTwo implements OnInit, AfterViewInit  {
         }, 100 * 1);
     }
 
+    ngOnDestroy() {
+        console.log('ModalTwo - ngOnDestroy');
+        // 这句写在ionViewWillLeave中不行
+        // A->B->C, 当前页是B
+        // ionViewWillLeave在B回A和B->C时都会触发
+        // 而ngOnDestroy只在B回A时触发
+        if (this.callbackWhenBack) {
+            this.callbackWhenBack({ name: 'Joe', age: 15 });
+        }
+    }
+
+    ionViewWillEnter() {
+        console.log('ModalTwo - ionViewWillEnter');
+    }
     ionViewDidEnter() {
+        console.log('ModalTwo - ionViewDidEnter');
+    }
+    ionViewWillLeave() {
+        console.log('ModalTwo - ionViewWillLeave');
+    }
+    ionViewDidLeave() {
+        console.log('ModalTwo - ionViewDidLeave');
     }
 
     dismissModal() {
@@ -60,4 +86,5 @@ export class ModalTwo implements OnInit, AfterViewInit  {
             nav.push(ModalThree, {});
         }
     }
+    
 }
