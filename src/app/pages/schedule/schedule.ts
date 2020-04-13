@@ -154,4 +154,32 @@ export class SchedulePage implements OnInit, AfterViewInit, OnDestroy {
     await loading.onWillDismiss();
     fab.close();
   }
+
+  showSessionDetail(session) {
+    // NavigationExtras#state 中不能放function
+    // core.js:6014 ERROR Error: Uncaught (in promise): DataCloneError: Failed to execute 'pushState' on 'History': 
+    // getDataFromNextPage(data) {
+    // console.log('current page is SchedulePage, data from detail page: ', data);
+    // } could not be cloned.
+    /*  this.router.navigate(['/app/tabs/schedule/session/' + session.id], {
+      state: {
+        a: 1,
+        b: 'qrcode',
+        callbackWhenBack: this.getDataFromNextPage
+      }
+    }); */
+
+    // TODO: 如何把getDataFromNextPage传递给detail？
+    //       难道只能用一个共享的service来存放这个引用？
+    this.router.navigate(['/app/tabs/schedule/session/' + session.id], {
+      state: {
+        a: 1,
+        b: 'qrcode'
+      }
+    });
+  }
+  getDataFromNextPage(data) {
+    console.log('current page is SchedulePage, data from detail page: ', data);
+  }
+
 }
