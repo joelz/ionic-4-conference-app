@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RoutesRecognized } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
+import { filter, pairwise } from 'rxjs/operators';
 
 import { Events, MenuController, Platform, ToastController, IonRouterOutlet } from '@ionic/angular';
 
@@ -84,6 +85,15 @@ export class AppComponent implements OnInit {
     });
 
     this.navHelper.routerOutlet = this.routerOutlet;
+
+    // [Ability to check for previous route with router.events.subscribe · Issue #11268 · angular/angular]
+    // (https://github.com/angular/angular/issues/11268)
+    this.router.events.pipe(
+      filter(e => e instanceof RoutesRecognized),
+      pairwise() // check it's second route load
+    ).subscribe((e: any[]) => {
+      console.log(e);
+    });
   }
 
   initializeApp() {
