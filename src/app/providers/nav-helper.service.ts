@@ -7,6 +7,8 @@
 // 其他page要拿到这个引用，还是要通过services来共享，这样做还不如直接在list和detail上共享一个service来放callback的引用
 // 找ion-router-outlet还有另一个问题：如果app中ion-tab，ion-tab有自己的ion-router-outlet，和AppComponent中的ion-router-outlet
 // 不是同一个。要获取ion-tab中的ion-router-outlet，暂时没找到方法。
+//
+// 接下来直接用NavHelperService做中介，来传递callback的引用
 import { Injectable } from '@angular/core';
 import { IonRouterOutlet } from '@ionic/angular';
 
@@ -15,6 +17,7 @@ import { IonRouterOutlet } from '@ionic/angular';
 })
 export class NavHelperService {
   routerOutlet: IonRouterOutlet;
+  public callbacks: any = {};
 
   constructor() { }
 

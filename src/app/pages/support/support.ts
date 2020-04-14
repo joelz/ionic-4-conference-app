@@ -1,8 +1,9 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, ViewEncapsulation, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AlertController, ToastController } from '@ionic/angular';
+import { NavHelperService } from '../../providers/nav-helper.service';
 
 
 
@@ -11,14 +12,16 @@ import { AlertController, ToastController } from '@ionic/angular';
   templateUrl: 'support.html',
   styleUrls: ['./support.scss'],
 })
-export class SupportPage {
+export class SupportPage implements OnDestroy {
   submitted = false;
   supportMessage: string;
+  callbackKey = 'SupportPage.getDataFromNextPage';
 
   constructor(
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     private router: Router,
+    private navHelper: NavHelperService,
   ) { }
 
   async ionViewDidEnter() {
@@ -44,6 +47,10 @@ export class SupportPage {
     }
   }
 
+  ngOnDestroy() {
+    this.navHelper.callbacks[this.callbackKey] = null;
+  }
+
   // If the user enters text in the support question and then navigates
   // without submitting first, ask if they meant to leave the page
   // async ionViewCanLeave(): Promise<boolean> {
@@ -67,7 +74,12 @@ export class SupportPage {
   // }
 
   buttonClick() {
-    this.router.navigate(['/support/detail'], { state: { a: 1, b: 'qrcode', callback: 'getDataFromNextPage' } });
+    this.router.navigate(['/support/detail'], { state: { a: 1, b: 'qrcode', callback: this.callbackKey } });
+
+    // 直接这样存放引用不行，当前页面无法离开
+    // setTimeout(() => {
+    //   this.navHelper.callbacks[this.callbackKey] = this.getDataFromNextPage;
+    // }, 500);
   }
 
   getDataFromNextPage(data) {

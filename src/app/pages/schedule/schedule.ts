@@ -5,6 +5,7 @@ import { AlertController, IonList, LoadingController, ModalController, ToastCont
 import { ScheduleFilterPage } from '../schedule-filter/schedule-filter';
 import { ConferenceData } from '../../providers/conference-data';
 import { UserData } from '../../providers/user-data';
+import { NavHelperService } from '../../providers/nav-helper.service';
 
 @Component({
   selector: 'page-schedule',
@@ -24,6 +25,8 @@ export class SchedulePage implements OnInit, AfterViewInit, OnDestroy {
   groups: any = [];
   confDate: string;
 
+  callbackKey = 'SchedulePage.getDataFromNextPage';
+
   constructor(
     public alertCtrl: AlertController,
     public confData: ConferenceData,
@@ -32,7 +35,8 @@ export class SchedulePage implements OnInit, AfterViewInit, OnDestroy {
     public router: Router,
     public toastCtrl: ToastController,
     public user: UserData,
-    public config: Config
+    public config: Config,
+    private navHelper: NavHelperService,
   ) { }
 
   ngOnInit() {
@@ -171,6 +175,10 @@ export class SchedulePage implements OnInit, AfterViewInit, OnDestroy {
 
     // TODO: 如何把getDataFromNextPage传递给detail？
     //       难道只能用一个共享的service来存放这个引用？
+
+    // 直接这样存放引用不行，当前页面无法离开
+    // this.navHelper.callbacks[this.callbackKey] = this.getDataFromNextPage;
+
     this.router.navigate(['/app/tabs/schedule/session/' + session.id], {
       state: {
         a: 1,
