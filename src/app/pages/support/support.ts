@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, ViewEncapsulation, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -12,10 +12,11 @@ import { NavHelperService } from '../../providers/nav-helper.service';
   templateUrl: 'support.html',
   styleUrls: ['./support.scss'],
 })
-export class SupportPage implements OnDestroy {
+export class SupportPage implements OnInit, OnDestroy {
   submitted = false;
   supportMessage: string;
   callbackKey = 'SupportPage.getDataFromNextPage';
+  paymentPlanChangedSub = null;
 
   constructor(
     public alertCtrl: AlertController,
@@ -47,8 +48,15 @@ export class SupportPage implements OnDestroy {
     }
   }
 
+  ngOnInit() {
+    this.paymentPlanChangedSub = this.navHelper.paymentPlanChanged.subscribe(data => {
+      this.getDataFromNextPage(data);
+    });
+  }
+
   ngOnDestroy() {
     this.navHelper.callbacks[this.callbackKey] = null;
+    this.paymentPlanChangedSub.unsubscribe();
   }
 
   // If the user enters text in the support question and then navigates

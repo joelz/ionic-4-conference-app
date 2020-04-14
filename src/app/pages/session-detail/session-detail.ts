@@ -3,6 +3,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy  } from '@angular/core';
 import { ConferenceData } from '../../providers/conference-data';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserData } from '../../providers/user-data';
+import { NavHelperService } from '../../providers/nav-helper.service';
 
 @Component({
   selector: 'page-session-detail',
@@ -19,7 +20,8 @@ export class SessionDetailPage implements OnInit, AfterViewInit, OnDestroy  {
     private dataProvider: ConferenceData,
     private userProvider: UserData,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private navHelper: NavHelperService,
   ) { }
 
   ngOnInit(): void {
@@ -36,6 +38,12 @@ export class SessionDetailPage implements OnInit, AfterViewInit, OnDestroy  {
 
   ngOnDestroy() {
     console.log('SessionDetailPage - ngOnDestroy');
+    // 这里其实会有问题：
+    // schedule可以进到session-detail
+    // speakers也可以进到session-detail
+    // ngOnDestroy里面没法区分这两个，而从schedule tab切换到speakers tab时schedule并不会ngOnDestroy，subscription还在
+    // 也许可以通过传不同的NavigationExtras#state进来作为区分
+    this.navHelper.paymentPlanChanged.next({ name: 'John', age: 16 });
   }
 
   ionViewWillEnter() {

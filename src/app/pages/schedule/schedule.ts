@@ -24,6 +24,7 @@ export class SchedulePage implements OnInit, AfterViewInit, OnDestroy {
   shownSessions: any = [];
   groups: any = [];
   confDate: string;
+  paymentPlanChangedSub;
 
   callbackKey = 'SchedulePage.getDataFromNextPage';
 
@@ -44,6 +45,10 @@ export class SchedulePage implements OnInit, AfterViewInit, OnDestroy {
     this.updateSchedule();
 
     this.ios = this.config.get('mode') === 'ios';
+
+    this.paymentPlanChangedSub = this.navHelper.paymentPlanChanged.subscribe(data => {
+      this.getDataFromNextPage(data);
+    });
   }
 
   ngAfterViewInit() {
@@ -52,6 +57,7 @@ export class SchedulePage implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('SchedulePage - ngOnDestroy');
+    this.paymentPlanChangedSub.unsubscribe();
   }
 
   ionViewWillEnter() {

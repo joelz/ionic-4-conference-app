@@ -9,8 +9,11 @@
 // 不是同一个。要获取ion-tab中的ion-router-outlet，暂时没找到方法。
 //
 // 接下来直接用NavHelperService做中介，来传递callback的引用
+//
+// 用Subject来传递值，缺点就是每一组list/detail都要一个paymentPlanChanged
 import { Injectable } from '@angular/core';
 import { IonRouterOutlet } from '@ionic/angular';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +21,7 @@ import { IonRouterOutlet } from '@ionic/angular';
 export class NavHelperService {
   routerOutlet: IonRouterOutlet;
   public callbacks: any = {};
+  public paymentPlanChanged: Subject<any> = new Subject<any>();
 
   constructor() { }
 

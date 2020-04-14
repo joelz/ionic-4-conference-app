@@ -33,6 +33,7 @@ export class SupportDetailPage implements  OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     console.log('SupportDetailPage - ngOnDestroy');
+    this.navHelper.paymentPlanChanged.next({ name: 'Emily', age: 8, error: true });
   }
 
   ionViewWillEnter() {
