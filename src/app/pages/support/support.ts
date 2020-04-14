@@ -2,7 +2,7 @@ import { Component, ViewEncapsulation, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 
-import { AlertController, ToastController } from '@ionic/angular';
+import { AlertController, ToastController, Events } from '@ionic/angular';
 import { NavHelperService } from '../../providers/nav-helper.service';
 
 
@@ -17,12 +17,14 @@ export class SupportPage implements OnInit, OnDestroy {
   supportMessage: string;
   callbackKey = 'SupportPage.getDataFromNextPage';
   paymentPlanChangedSub = null;
+  detailBackSub: (data: any) => void;
 
   constructor(
     public alertCtrl: AlertController,
     public toastCtrl: ToastController,
     private router: Router,
     private navHelper: NavHelperService,
+    private ionicEvents: Events,
   ) { }
 
   async ionViewDidEnter() {
@@ -52,11 +54,20 @@ export class SupportPage implements OnInit, OnDestroy {
     this.paymentPlanChangedSub = this.navHelper.paymentPlanChanged.subscribe(data => {
       this.getDataFromNextPage(data);
     });
+
+    this.detailBackSub = (data) => {
+      console.log('data get from Ionic Events:', data);
+    };
+    this.ionicEvents.subscribe('support:back-from-detail', this.detailBackSub);
   }
 
   ngOnDestroy() {
     this.navHelper.callbacks[this.callbackKey] = null;
     this.paymentPlanChangedSub.unsubscribe();
+
+    if (this.detailBackSub) {
+      this.ionicEvents.unsubscribe('support:back-from-detail', this.detailBackSub);
+    }
   }
 
   // If the user enters text in the support question and then navigates
@@ -91,6 +102,6 @@ export class SupportPage implements OnInit, OnDestroy {
   }
 
   getDataFromNextPage(data) {
-    console.log('current page is SchedulePage, data from detail page: ', data);
+    console.log('current page is SupportPage, data from detail page: ', data);
   }
 }

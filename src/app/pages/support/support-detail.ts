@@ -2,6 +2,7 @@ import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { NavHelperService } from '../../providers/nav-helper.service';
+import { Events } from '@ionic/angular';
 
 @Component({
   selector: 'page-support-detail',
@@ -17,6 +18,7 @@ export class SupportDetailPage implements  OnInit, AfterViewInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private navHelper: NavHelperService,
+    private ionicEvents: Events,
   ) { }
 
   ngOnInit(): void {
@@ -34,6 +36,8 @@ export class SupportDetailPage implements  OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy() {
     console.log('SupportDetailPage - ngOnDestroy');
     this.navHelper.paymentPlanChanged.next({ name: 'Emily', age: 8, error: true });
+
+    this.ionicEvents.publish('support:back-from-detail', { name: 'Emily', age: 38, error: true });
   }
 
   ionViewWillEnter() {
