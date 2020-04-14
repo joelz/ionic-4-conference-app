@@ -1,7 +1,9 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { AlertController, ToastController } from '@ionic/angular';
+
 
 
 @Component({
@@ -15,7 +17,8 @@ export class SupportPage {
 
   constructor(
     public alertCtrl: AlertController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,
+    private router: Router,
   ) { }
 
   async ionViewDidEnter() {
@@ -62,4 +65,12 @@ export class SupportPage {
   //     await alert.present();
   //   });
   // }
+
+  buttonClick() {
+    this.router.navigate(['/support/detail'], { state: { a: 1, b: 'qrcode', callback: 'getDataFromNextPage' } });
+  }
+
+  getDataFromNextPage(data) {
+    console.log('current page is SchedulePage, data from detail page: ', data);
+  }
 }

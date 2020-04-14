@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 
-import { Events, MenuController, Platform, ToastController } from '@ionic/angular';
+import { Events, MenuController, Platform, ToastController, IonRouterOutlet } from '@ionic/angular';
 
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
@@ -10,6 +10,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Storage } from '@ionic/storage';
 
 import { UserData } from './providers/user-data';
+import { NavHelperService } from './providers/nav-helper.service';
 
 @Component({
   selector: 'app-root',
@@ -43,6 +44,9 @@ export class AppComponent implements OnInit {
   loggedIn = false;
   dark = false;
 
+  @ViewChild(IonRouterOutlet, { static: true })
+  routerOutlet: IonRouterOutlet;
+
   constructor(
     private events: Events,
     private menu: MenuController,
@@ -54,6 +58,7 @@ export class AppComponent implements OnInit {
     private userData: UserData,
     private swUpdate: SwUpdate,
     private toastCtrl: ToastController,
+    private navHelper: NavHelperService,
   ) {
     this.initializeApp();
   }
@@ -77,6 +82,8 @@ export class AppComponent implements OnInit {
         .then(() => this.swUpdate.activateUpdate())
         .then(() => window.location.reload());
     });
+
+    this.navHelper.routerOutlet = this.routerOutlet;
   }
 
   initializeApp() {
