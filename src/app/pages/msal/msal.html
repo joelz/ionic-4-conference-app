@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Azure AD Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Result:</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <div>{{signInResult}}</div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Cached Accounts:</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <div class="about-info">
+        <ion-list>
+          <ion-radio-group [(ngModel)]="selectedAccountId">
+            <ion-item *ngFor="let acc of cachedAccounts; let i = index">
+              <ion-label>{{acc.username}}</ion-label>
+              <ion-radio slot="start" value="{{acc.id}}"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </ion-list>
+        <ion-button (click)="signInSilent()" [disabled]="!(cachedAccounts.length>0)">sign In Silent</ion-button>
+        <ion-button (click)="signOut()" color="danger" [disabled]="!(cachedAccounts.length>0)">sign Out</ion-button>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-content>
+      <ion-button (click)="signInInteractive()">sign In Interactive</ion-button>
+      <br />
+      <ion-button (click)="getAccounts()">get cached Accounts</ion-button>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

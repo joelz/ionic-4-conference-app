@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -158,4 +158,14 @@ export class ConferenceData {
       })
     );
   }
+
+  callMsGraphApi(jwt) { 
+    const headersTmp = {};
+    headersTmp['Authorization'] = 'Bearer ' + jwt;
+
+    return this.http.get('https://graph.microsoft.com/v1.0/me', {
+      headers: new HttpHeaders(headersTmp),
+      responseType: 'json'
+    }).pipe(map(res => { return res }));
+  }  
 }

@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.ionicframework.conferenceapp" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Ionic Conference App</name>
+<widget id="com.dc1979.conferenceapp" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Ionic4</name>
     <description>Schedule, speakers, venue.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
     <content src="index.html" />
@@ -83,6 +83,11 @@
     <plugin name="cordova-plugin-ionic-webview" spec="2.0.0-beta.1" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.1.2" />
-    <engine name="ios" spec="^4.5.5" />
-    <engine name="android" spec="7.0.0" />
+    <plugin name="cordova-plugin-msal" spec="^2.0.1">
+        <variable name="TENANT_ID" value="becd6529-4f7f-4be6-85e6-ab8679470cd7" />
+        <variable name="CLIENT_ID" value="d82ee612-17b3-401a-81a8-769da2669bac" />
+        <variable name="KEY_HASH" value="hpBK1Ubtb+rplzSTeS0QZAB8F74=" />
+    </plugin>
+    <engine name="ios" spec="^5.0.1" />
+    <engine name="android" spec="8.1.0" />
 </widget>

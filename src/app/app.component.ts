@@ -40,6 +40,11 @@ export class AppComponent implements OnInit {
       title: 'About',
       url: '/app/tabs/about',
       icon: 'information-circle'
+    },
+    {
+      title: 'Azure AD Login',
+      url: '/app/tabs/msal',
+      icon: 'cloud-outline'
     }
   ];
   loggedIn = false;
@@ -100,6 +105,8 @@ export class AppComponent implements OnInit {
     this.platform.ready().then(() => {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+
+      this.initMSAL();
     });
   }
 
@@ -140,4 +147,31 @@ export class AppComponent implements OnInit {
     this.storage.set('ion_did_tutorial', false);
     this.router.navigateByUrl('/tutorial');
   }
+
+  initMSAL() {
+    const _ = this;
+    const options = {
+      authorities: [
+        {
+          type: 'AAD',
+          audience: 'AzureADandPersonalMicrosoftAccount',
+          authorityUrl: '',
+          cloudInstance: 'MSALAzurePublicCloudInstance',
+          default: true
+        }
+      ],
+      authorizationUserAgent: 'DEFAULT',
+      multipleCloudsSupported: false,
+      brokerRedirectUri: false,
+      accountMode: 'MULTIPLE',//SINGLE
+      scopes: ['User.Read']
+    };
+
+    (window.cordova.plugins as any).msalPlugin.msalInit(function () {
+      console.log('msal init done.');
+    }, function (err) {
+      console.log('msal init error:', err);
+    }, options);
+  }
+  
 }

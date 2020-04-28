@@ -56,6 +56,14 @@ const routes: Routes = [
             loadChildren: () => import('../about/about.module').then(m => m.AboutModule)
           }
         ]
+      }, {
+        path: 'msal',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../msal/msal.module').then(m => m.MsalModule)
+          }
+        ]
       },
       {
         path: '',
