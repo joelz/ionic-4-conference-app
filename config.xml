@@ -88,6 +88,6 @@
         <variable name="CLIENT_ID" value="d82ee612-17b3-401a-81a8-769da2669bac" />
         <variable name="KEY_HASH" value="hpBK1Ubtb+rplzSTeS0QZAB8F74=" />
     </plugin>
-    <engine name="ios" spec="^5.0.1" />
+    <engine name="ios" spec="^5.1.1" />
     <engine name="android" spec="8.1.0" />
 </widget>

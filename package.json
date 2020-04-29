@@ -10,7 +10,8 @@
     "build": "ng build",
     "test": "ng test --watch=false",
     "lint": "ng lint",
-    "android": "ionic cordova prepare android && cordova run android"
+    "android": "ionic cordova prepare android && cordova run android",
+    "build:ios": "ng run app:ionic-cordova-build:production --platform=ios"
   },
   "repository": {
     "type": "git",
@@ -34,7 +35,7 @@
     "@ionic/angular": "^4.10.0",
     "@ionic/storage": "^2.1.3",
     "cordova-android": "8.1.0",
-    "cordova-ios": "^5.0.1",
+    "cordova-ios": "^5.1.1",
     "cordova-plugin-device": "^2.0.3",
     "cordova-plugin-inappbrowser": "^3.2.0",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
@@ -95,7 +96,7 @@
       "cordova-plugin-msal": {
         "TENANT_ID": "becd6529-4f7f-4be6-85e6-ab8679470cd7",
         "CLIENT_ID": "d82ee612-17b3-401a-81a8-769da2669bac",
-        "KEY_HASH": "jZxdYbPz/+QlnfeT7xBCs3dLQNc="
+        "KEY_HASH": "hpBK1Ubtb+rplzSTeS0QZAB8F74="
       }
     }
   }
