@@ -62,6 +62,12 @@ export class MsalPage implements OnInit, AfterViewInit  {
         // err probably says "No accounts found" but maybe other debugging info
         // Don't show this to the user; just use it for debugging.
         // Here's where you either call the next prompt or wait for the user
+
+        // TODO- fallback to interaction when silent call fails
+        console.log("silent token acquisition fails. acquiring token using popup");
+        // scenario 01-AADSTS50173: The session is not valid due to password expiration or recent password change.
+        // scenario 02-"No accounts found" in iOS
+        _.signInInteractive();
       },
       _.selectedAccountId
     );
